@@ -1,20 +1,20 @@
 <?php
 /*******************************************************************
-* Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
-* and/or its licensors, successors and assigners. All rights reserved.
-*
-* Use of Glype is subject to the terms of the Software License Agreement.
-* http://www.glype.com/license.php
-*******************************************************************
-* This page allows the user to change settings for their "virtual
-* browser" - includes disabling/enabling referrers, choosing a user
-* agent string
-******************************************************************/
+ * Glype is copyright and trademark 2007-2015 UpsideOut, Inc. d/b/a Glype
+ * and/or its licensors, successors and assigners. All rights reserved.
+ *
+ * Use of Glype is subject to the terms of the Software License Agreement.
+ * http://www.glype.com/license.php
+ *******************************************************************
+ * This page allows the user to change settings for their "virtual
+ * browser" - includes disabling/enabling referrers, choosing a user
+ * agent string
+ ******************************************************************/
 
 
 /*****************************************************************
-* Initialize glype
-******************************************************************/
+ * Initialize glype
+ ******************************************************************/
 
 require 'includes/init.php';
 
@@ -26,33 +26,36 @@ ob_start();
 
 
 /*****************************************************************
-* Create content
-******************************************************************/
+ * Create content
+ ******************************************************************/
 
 # Return without saving button
-$return		 = empty($_GET['return']) ? '' : '<input type="button" value="Cancel" onclick="window.location=\'' . remove_html($_GET['return']) . '\'">';
+$return = empty($_GET['return']) ? '' : '<input type="button" value="Cancel" onclick="window.location=\'' . remove_html($_GET['return']) . '\'">';
 $returnField = empty($_GET['return']) ? '' : '<input type="hidden" value="' . remove_html($_GET['return']) . '" name="return">';
-$agent		 = empty($_SERVER['HTTP_USER_AGENT']) ? '' : htmlentities($_SERVER['HTTP_USER_AGENT']);
+$agent = empty($_SERVER['HTTP_USER_AGENT']) ? '' : htmlentities($_SERVER['HTTP_USER_AGENT']);
 
 # Quote strings
-function escape_single_quotes($value) {
-	return str_replace("'", "\'", $value);
+function escape_single_quotes($value)
+{
+    return str_replace("'", "\'", $value);
 }
-function remove_html($x) {
-	$x = preg_replace('#"#', '', $x);
-	$x = preg_replace("#'#", '', $x);
-	$x = preg_replace('#<#', '', $x);
-	$x = preg_replace('#>#', '', $x);
-	$x = preg_replace('#\\\\#', '', $x);
-	return $x;
+
+function remove_html($x)
+{
+    $x = preg_replace('#"#', '', $x);
+    $x = preg_replace("#'#", '', $x);
+    $x = preg_replace('#<#', '', $x);
+    $x = preg_replace('#>#', '', $x);
+    $x = preg_replace('#\\\\#', '', $x);
+    return $x;
 }
 
 # Get existing values
-$browser		  = $_SESSION['custom_browser'];
+$browser = $_SESSION['custom_browser'];
 
-$currentUA		  = escape_single_quotes($browser['user_agent']);
-$realReferrer	  = $browser['referrer'] == 'real' ? 'true' : 'false';
-$customReferrer  = $browser['referrer'] == 'real' ? ''	  : escape_single_quotes($browser['referrer']);
+$currentUA = escape_single_quotes($browser['user_agent']);
+$realReferrer = $browser['referrer'] == 'real' ? 'true' : 'false';
+$customReferrer = $browser['referrer'] == 'real' ? '' : escape_single_quotes($browser['referrer']);
 
 echo <<<OUT
 	<script type="text/javascript">
@@ -193,8 +196,8 @@ OUT;
 
 
 /*****************************************************************
-* Send content wrapped in our theme
-******************************************************************/
+ * Send content wrapped in our theme
+ ******************************************************************/
 
 # Get buffer
 $content = ob_get_contents();
